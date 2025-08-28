@@ -1,0 +1,16 @@
+{
+  "name": "malcolm-job-board",
+  "version": "1.0.0",
+  "description": "Free automated job board for mission-driven opportunities",
+  "main": "scripts/fetch-jobs.js",
+  "scripts": {
+    "fetch-jobs": "node scripts/fetch-jobs.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["jobs", "nonprofit", "museum", "library", "education"],
+  "author": "Malcolm",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
