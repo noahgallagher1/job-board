@@ -1,99 +1,96 @@
 name: Update Jobs Daily
 
 on:
-schedule:
-# Run daily at 12:00 AM EST (5:00 AM UTC)
-- cron: ‘0 5 * * *’
-workflow_dispatch: # Allow manual trigger
-push:
-branches: [ main ]
-paths:
-- ‘scripts/**’
-- ’.github/workflows/**’
+  schedule:
+    # Run daily at 12:00 AM EST (5:00 AM UTC)
+    - cron: '0 5 * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
 
 permissions:
-contents: write
-pages: write
-id-token: write
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-update-jobs:
-runs-on: ubuntu-latest
+  update-jobs:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
-steps:
-- name: Checkout repository
-  uses: actions/checkout@v4
-  with:
-    persist-credentials: true
-    fetch-depth: 0
-    
-- name: Setup Node.js
-  uses: actions/setup-node@v4
-  with:
-    node-version: '18'
-    cache: 'npm'
-    cache-dependency-path: package-lock.json
-    
-- name: Install dependencies
-  run: |
-    npm init -y || true
-    npm install
-    
-- name: Create data directory
-  run: mkdir -p data
-    
-- name: Fetch job data
-  run: |
-    echo "🔍 Starting job fetch at $(date)"
-    node scripts/fetch-jobs.js || echo "⚠️ Fetch completed with warnings"
-  continue-on-error: true
-  
-- name: Verify data file
-  run: |
-    if [ -f "data/jobs.json" ]; then
-      echo "✅ Jobs file created successfully"
-      echo "📊 File size: $(ls -lh data/jobs.json | awk '{print $5}')"
-      echo "📈 Job count: $(cat data/jobs.json | grep -o '"id"' | wc -l)"
-    else
-      echo "❌ No jobs file found, creating empty file"
-      echo '{"jobs":[],"lastUpdated":"'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'","totalJobs":0,"sources":[]}' > data/jobs.json
-    fi
-  
-- name: Commit and push changes
-  run: |
-    git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    git config --local user.name "github-actions[bot]"
-    git add data/jobs.json
-    if git diff --staged --quiet; then
-      echo "📝 No changes to commit"
-    else
-      git commit -m "🔄 Update job listings - $(date +'%Y-%m-%d %H:%M:%S EST')"
-      git push
-      echo "✅ Changes pushed successfully"
-    fi
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
+      - name: Install dependencies
+        run: |
+          npm init -y || true
+          npm install
 
-deploy:
-needs: update-jobs
-runs-on: ubuntu-latest
-if: github.ref == ‘refs/heads/main’
+      - name: Create data directory
+        run: mkdir -p data
 
+      - name: Fetch job data
+        run: |
+          echo "🔍 Starting job fetch at $(date)"
+          node scripts/fetch-jobs.js || echo "⚠️ Fetch completed with warnings"
+        continue-on-error: true
 
-steps:
-- name: Checkout
-  uses: actions/checkout@v4
-  with:
-    ref: main
-    
-- name: Setup Pages
-  uses: actions/configure-pages@v4
-  
-- name: Upload artifact
-  uses: actions/upload-pages-artifact@v3
-  with:
-    path: '.'
-    
-- name: Deploy to GitHub Pages
-  id: deployment
-  uses: actions/deploy-pages@v4
+      - name: Verify data file
+        run: |
+          if [ -f "data/jobs.json" ]; then
+            echo "✅ Jobs file created successfully"
+            echo "📊 File size: $(ls -lh data/jobs.json | awk '{print $5}')"
+            echo "📈 Job count: $(grep -o '\"id\"' data/jobs.json | wc -l)"
+          else
+            echo "❌ No jobs file found, creating empty file"
+            echo '{"jobs":[],"lastUpdated":"'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'","totalJobs":0,"sources":[]}' > data/jobs.json
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/jobs.json
+          if git diff --staged --quiet; then
+            echo "📝 No changes to commit"
+          else
+            git commit -m "🔄 Update job listings - $(date +'%Y-%m-%d %H:%M:%S EST')"
+            git push
+            echo "✅ Changes pushed successfully"
+          fi
+
+  deploy:
+    needs: update-jobs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
