@@ -32,10 +32,10 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          # Only set cache-dependency-path if the file exists
           cache-dependency-path: |
             package-lock.json
             **/package-lock.json
+        continue-on-error: true
 
 
       - name: Install dependencies
