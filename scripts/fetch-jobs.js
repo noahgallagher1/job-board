@@ -7,7 +7,7 @@ constructor() {
 this.jobs = [];
 this.seenJobs = new Set();
 
-```
+
     // Your specific target roles combining policy and CS backgrounds
     this.targetRoles = [
         // Project Management
@@ -446,7 +446,7 @@ async makeRequest(url, headers = {}) {
 sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-```
+
 
 }
 
