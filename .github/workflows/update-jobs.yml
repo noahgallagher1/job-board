@@ -20,7 +20,7 @@ jobs:
 update-jobs:
 runs-on: ubuntu-latest
 
-```
+
 steps:
 - name: Checkout repository
   uses: actions/checkout@v4
@@ -72,14 +72,14 @@ steps:
       git push
       echo "✅ Changes pushed successfully"
     fi
-```
+
 
 deploy:
 needs: update-jobs
 runs-on: ubuntu-latest
 if: github.ref == ‘refs/heads/main’
 
-```
+
 steps:
 - name: Checkout
   uses: actions/checkout@v4
@@ -97,4 +97,3 @@ steps:
 - name: Deploy to GitHub Pages
   id: deployment
   uses: actions/deploy-pages@v4
-```
