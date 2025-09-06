@@ -8,7 +8,7 @@ this.initEventListeners();
 this.loadJobs();
 }
 
-```
+
 async initDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('MalcolmJobBoard', 2);
@@ -534,7 +534,7 @@ async forceRefresh() {
     this.jobs = [];
     await this.loadJobs();
 }
-```
+
 
 }
 
