@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malcolm's Mission-Driven Jobs</title>
+    <title>Malcolm's Policy + Tech Job Board</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,86 +13,115 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>Mission-Driven Career Opportunities</h1>
-            <p class="subtitle">Curated opportunities in project management, policy, administration, and strategic planning</p>
-            <div class="last-updated" id="lastUpdated">Last updated: Loading...</div>
+            <h1>Policy + Tech Career Opportunities</h1>
+            <p class="subtitle">Curated project management and policy roles combining your Political Science and Computer Science background</p>
+            <div class="header-meta">
+                <span class="last-updated" id="lastUpdated">Loading...</span>
+                <span class="data-source" id="dataSource"></span>
+            </div>
+            <div class="focus-areas">
+                <span class="focus-tag">🎯 LA Area</span>
+                <span class="focus-tag">💻 Remote Welcome</span>
+                <span class="focus-tag">🏛️ Mission-Driven</span>
+                <span class="focus-tag">🔄 Updates Daily at 12AM EST</span>
+            </div>
         </header>
 
-        <div class="filters">
-            <div class="filter-group">
-                <label for="locationFilter">Location:</label>
-                <select id="locationFilter">
-                    <option value="all">All Locations</option>
-                    <option value="remote">Remote Only</option>
-                    <option value="los-angeles">Los Angeles Area</option>
-                    <option value="hybrid">Hybrid</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="employerFilter">Preferred Employers:</label>
-                <select id="employerFilter">
-                    <option value="all">All Employers</option>
-                    <option value="nonprofit">Nonprofit Organizations</option>
-                    <option value="education">Educational Institutions</option>
-                    <option value="museum">Museums & Cultural</option>
-                    <option value="library">Libraries</option>
-                    <option value="government">Government</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="roleFilter">Role Type:</label>
-                <select id="roleFilter">
-                    <option value="all">All Target Roles</option>
-                    <option value="project-management">Project Management</option>
-                    <option value="administrative">Administrative</option>
-                    <option value="policy">Policy & Writing</option>
-                    <option value="planning">Planning & Strategy</option>
-                </select>
-            </div>
-            
-            <div class="search-group">
-                <input type="text" id="searchInput" placeholder="Search jobs...">
-                <button id="clearFilters">Clear All</button>
-            </div>
+```
+    <div class="filters">
+        <div class="filter-group">
+            <label for="locationFilter">📍 Location:</label>
+            <select id="locationFilter">
+                <option value="all">All Locations</option>
+                <option value="remote">Remote Only</option>
+                <option value="los-angeles">Los Angeles Area</option>
+                <option value="hybrid">Hybrid Options</option>
+            </select>
         </div>
-
-        <div class="stats">
-            <div class="stat-item">
-                <span id="totalJobs">0</span>
-                <span>Total Jobs</span>
-            </div>
-            <div class="stat-item">
-                <span id="remoteJobs">0</span>
-                <span>Remote</span>
-            </div>
-            <div class="stat-item">
-                <span id="preferredJobs">0</span>
-                <span>Preferred Employers</span>
-            </div>
+        
+        <div class="filter-group">
+            <label for="employerFilter">🏢 Employer Type:</label>
+            <select id="employerFilter">
+                <option value="all">All Employers</option>
+                <option value="nonprofit">Nonprofits</option>
+                <option value="education">Universities</option>
+                <option value="government">Government</option>
+                <option value="cultural">Museums & Libraries</option>
+                <option value="think-tank">Think Tanks</option>
+            </select>
         </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Loading fresh opportunities...</p>
+        
+        <div class="filter-group">
+            <label for="roleFilter">💼 Role Focus:</label>
+            <select id="roleFilter">
+                <option value="all">All Roles</option>
+                <option value="project-management">Project Management</option>
+                <option value="policy">Policy Analysis</option>
+                <option value="tech-policy">Tech + Policy Hybrid</option>
+                <option value="administrative">Administrative</option>
+                <option value="planning">Strategy & Planning</option>
+            </select>
         </div>
-
-        <div id="jobsContainer" class="jobs-container">
-            <!-- Jobs will be dynamically inserted here -->
+        
+        <div class="search-group">
+            <input type="text" id="searchInput" placeholder="Search keywords...">
+            <button id="clearFilters">Clear</button>
+            <button id="refreshButton" class="refresh-btn">🔄 Refresh</button>
         </div>
-
-        <div id="noResults" class="no-results" style="display: none;">
-            <h3>No jobs match your current filters</h3>
-            <p>Try adjusting your filters or check back tomorrow for new opportunities.</p>
-        </div>
-
-        <footer class="footer">
-            <p>Data aggregated from USA Jobs, Adzuna, Jooble, and specialized nonprofit job boards</p>
-            <p>Updated daily at 12AM PST • Malcolm's Mission-Driven Opportunities</p>
-        </footer>
     </div>
-    
-    <script src="app.js"></script>
+
+    <div class="stats">
+        <div class="stat-item">
+            <span id="totalJobs" class="stat-number">0</span>
+            <span class="stat-label">Total Jobs</span>
+        </div>
+        <div class="stat-item highlight">
+            <span id="perfectMatches" class="stat-number">0</span>
+            <span class="stat-label">Perfect Matches</span>
+        </div>
+        <div class="stat-item">
+            <span id="remoteJobs" class="stat-number">0</span>
+            <span class="stat-label">Remote</span>
+        </div>
+        <div class="stat-item">
+            <span id="preferredJobs" class="stat-number">0</span>
+            <span class="stat-label">Mission-Driven</span>
+        </div>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>🔍 Finding perfect Policy + Tech opportunities...</p>
+    </div>
+
+    <div id="jobsContainer" class="jobs-container">
+        <!-- Jobs will be dynamically inserted here -->
+    </div>
+
+    <div id="noResults" class="no-results" style="display: none;">
+        <h3>No jobs match your current filters</h3>
+        <p>Try adjusting your filters or check back tomorrow at 12AM EST for fresh opportunities.</p>
+        <p class="tip">💡 Tip: Jobs combining policy and tech skills are highly valued but less common. Check the "Tech + Policy Hybrid" filter for best matches!</p>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Your Profile:</strong> B.A. Political Science + Minor in Computer Science</p>
+            <p><strong>Data Sources:</strong> USA Jobs • RemoteOK • Curated Mission-Driven Organizations</p>
+            <p><strong>Auto-Updates:</strong> Daily at 12:00 AM EST via GitHub Actions</p>
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/yourusername/job-board" target="_blank">View on GitHub</a>
+            <span>•</span>
+            <a href="https://www.usajobs.gov" target="_blank">USA Jobs</a>
+            <span>•</span>
+            <a href="https://www.idealist.org" target="_blank">Idealist</a>
+        </div>
+    </footer>
+</div>
+
+<script src="app.js"></script>
+```
+
 </body>
 </html>
