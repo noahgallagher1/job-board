@@ -32,11 +32,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: package-lock.json
+          # Only set cache-dependency-path if the file exists
+          cache-dependency-path: |
+            package-lock.json
+            **/package-lock.json
+
 
       - name: Install dependencies
         run: |
-          npm init -y || true
+          if [ ! -f package.json ]; then
+            echo "📦 No package.json found, initializing..."
+            npm init -y
+          fi
           npm install
 
       - name: Create data directory
