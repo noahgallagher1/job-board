@@ -491,7 +491,7 @@ color: #d1d5db;
 padding: 16px;
 }
 
-```
+
 .header h1 {
     font-size: 2rem;
 }
@@ -518,7 +518,7 @@ padding: 16px;
     flex-direction: column;
     gap: 8px;
 }
-```
+
 
 }
 
@@ -527,7 +527,7 @@ padding: 16px;
 font-size: 1.75rem;
 }
 
-```
+
 .focus-areas {
     gap: 8px;
 }
@@ -536,6 +536,6 @@ font-size: 1.75rem;
     font-size: 0.75rem;
     padding: 4px 10px;
 }
-```
+
 
 }
